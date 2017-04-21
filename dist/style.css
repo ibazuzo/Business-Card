@@ -14,13 +14,17 @@ img {
 	vertical-align: middle;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 .card {
 	width: 300px;
 	position: absolute;
 	left: 50%;
 	top: 40%;
-	transform: translate(-50%,-50%);
-	box-shadow: 0px 1px 83px rgba(0,0,0,0.2);
+	transform: translate(-50%, -50%);
+	box-shadow: 0px 1px 83px rgba(0, 0, 0, 0.2);
 	border-radius: 10px;
 	overflow: hidden;
 }
@@ -33,11 +37,12 @@ img {
 	background-repeat: no-repeat;
 	background-position: 100% 100%;
 	background-size: cover;
+	position: relative;
 }
 
 .card_bio {
 	background: #ffffff;
-	box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+	box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
 	color: #ababab;
 	padding-bottom: 15px;
 	padding-left: 30px;
@@ -54,29 +59,202 @@ img {
 	height: 30px;
 	transform: translateY(-50%);
 	border-radius: 50%;
-
-}
-
-.social_container {
-	position: absolute;
-	right: 20px;
-	top: 0px;
-	transform: translateY(-50%);
-	padding: 10px 10px;
-	border-radius: 50%;
-	background: #00aced;
-}
-
-.bio_social_icon {
-	width: 20px;
-	height: 16px;
+	z-index: 4;
 }
 
 .bio_text {
 	margin: 0px;
 }
 
-.date {
+.bio_date {
 	font-style: italic;
 	margin: 30px auto 0;
 }
+
+.social_container {
+	position: absolute;
+	bottom: 0;
+	right: 20px;
+	width: 40px;
+	height: 40px;
+	transform: translate(0, 50%);
+	border-radius: 50%;
+	background: linear-gradient(to bottom, #00acea 0%, #1cb0fa 100%);
+	z-index: 1;
+	animation-duration: 4s;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+
+@keyframes social_to_background {
+	0% {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		bottom: 0;
+		right: 20px;
+		transform: translate(0, 50%);
+	}
+	12% {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		bottom: 50%;
+		right: 50%;
+		transform: translate(50%, 50%);
+	}
+	25% {
+		width: 300px;
+		height: 300px;
+		border-radius: 0%;
+		bottom: 50%;
+		right: 50%;
+		transform: translate(50%, 50%);
+	}
+	100% {
+		width: 300px;
+		height: 300px;
+		border-radius: 0%;
+		bottom: 50%;
+		right: 50%;
+		transform: translate(50%, 50%);
+	}
+}
+
+@keyframes social_to_menu {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.social_icon {
+	width: 20px;
+	height: 16px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation-duration: 1s;
+	animation-iteration-count: 1;
+	animation-delay: 0.5s;
+	animation-fill-mode: forwards;
+}
+
+.options_menu {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation-duration: 1s;
+	animation-delay: 1s;
+	animation-fill-mode: forwards;
+	opacity: 0;
+	z-index: 3;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+@keyframes showing_options {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.button {
+	display: block;
+	width: 120px;
+	height: 35px;
+	font-size: 0.8em;
+	font-weight: 700;
+	color: #ffffff;
+	/*padding: 6px;*/
+	margin-bottom: 13px;
+	border: 1px solid #ffffff;
+	border-radius: 5px;
+	text-decoration: none;
+	text-align: center;
+	line-height: 35px;
+}
+
+.trigger_label {
+	position: absolute;
+	bottom: 0;
+	right: 20px;
+	width: 40px;
+	height: 40px;
+	transform: translate(0, 50%);
+	border-radius: 50%;
+	background: transparent;
+	z-index: 2;
+	cursor: pointer;
+}
+
+.trigger_checkbox {
+	display: none;
+}
+
+.trigger_checkbox:checked ~ .social_container {
+	animation-name: social_to_background;
+}
+
+.trigger_checkbox:checked ~ .social_container .social_icon {
+	animation-name: social_to_menu;
+}
+
+.trigger_checkbox:checked ~ .options_menu {
+	animation-name: showing_options;
+}
+
+.trigger_checkbox:checked ~ .trigger_label .close {
+	animation-name: showing_options;
+}
+
+.trigger_checkbox:checked ~ .trigger_label {
+	top: 0;
+}
+
+.close {
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 2.5em;
+	text-align: center;
+	line-height: 40px;
+	animation-duration: 1s;
+	animation-delay: 1s;
+	animation-fill-mode: forwards;
+	opacity: 0;
+	z-index: 3;
+}
+/*
+.trigger_checkbox:not(:checked) ~ .social_container {
+	animation-name: social_to_background;
+		animation-direction: reverse;
+}
+}
+
+.trigger_checkbox:not(:checked) ~ .social_container .social_icon {
+	animation-name: social_to_menu;
+		animation-direction: reverse;
+}
+}
+
+.trigger_checkbox:not(:checked) ~ .options_menu {
+	animation-name: showing_options;
+	animation-direction: reverse;
+}
+}
+
+.trigger_checkbox:not(:checked) ~ .trigger_label .close {
+	animation-name: showing_options;
+	animation-direction: reverse;
+}
+
+.trigger_checkbox:not(:checked) ~ .trigger_label {
+	bottom: 0;
+}*/
